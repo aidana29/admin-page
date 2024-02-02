@@ -1,0 +1,50 @@
+/media:
+  get:
+    summary: 미디어 목록 조회
+    tags:
+      - /media
+    responses:
+      "200":
+        $ref: "./mediaComponents.yaml#/components/responses/userMediaList"
+  post:
+    summary: 미디어 업로드
+    tags:
+      - /media
+    requestBody:
+      description: 유저가 입력한 아바타 파일 이름 req.body로, 아바타 파일이랑 썸네일 파일 form-data로 전송
+      required: true
+      content:
+        application/json:
+          example: {
+            file: "avatar file",
+            thumbnail: thumbnail,
+            fileName: "file name",
+            }
+    responses:
+      "200":
+        $ref: "./mediaComponents.yaml#/components/responses/mediaUploaded"
+/media/{mediaId}:
+  get:
+    summary: 미디어 목록에서 미디어 하나를 선택해서 상세 조회
+    tags:
+      - /media
+    parameters:
+      - in: query
+        name: mediaId
+        required: true
+        description: 유저가 조회하고 싶은 미디어 아이디
+    responses:
+        "200":
+          $ref: "./mediaComponents.yaml#/components/responses/mediaInfo"
+  delete:
+    summary: 미디어 삭제
+    tags:
+      - /media
+    parameters:
+      - in: query
+        name: mediaId
+        required: true
+        description: 유저가 삭제하고 싶은 미디어 아이디
+    responses:
+      "200":
+        $ref: "./mediaComponents.yaml#/components/responses/mediaDeleted"

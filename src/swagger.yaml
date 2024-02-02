@@ -1,0 +1,328 @@
+openapi: 3.0.0
+info:
+  version: 0.4.0
+  title: FluentT Web Motion Capture API Docs
+  description: Web Motion Capture API 문서입니다.
+  license:
+    name: MIT
+servers:
+  - url: 'http://localhost:3000/'
+paths:
+  /main:
+    get:
+      summary: Dislay user's information on the main page
+      tags:
+        - /main
+      responses:
+        '200':
+          $ref: '#/components/responses/successResponse'
+  /main/media:
+    get:
+      summary: Display a list of uploaded images on the main page
+      tags:
+        - /main
+      responses:
+        '200':
+          $ref: '#/paths/~1media/get/responses/200'
+  /media:
+    get:
+      summary: 미디어 목록 조회
+      tags:
+        - /media
+      responses:
+        '200':
+          description: 미디어 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  fileName:
+                    type: string
+                  uploader:
+                    type: string
+                  fileurl:
+                    type: string
+              example:
+                message: MEDIA_LIST_SUCCESS
+                data:
+                  - file_name: fileName
+                    file_url: fileUrl
+                    thumbnail_url: thumbnailUrl
+                    uploader: 1
+                    id: 2
+                  - file_name: fileName
+                    file_url: fileUrl
+                    thumbnail_url: thumbnailUrl
+                    uploader: 1
+                    id: 3
+    post:
+      summary: 미디어 업로드
+      tags:
+        - /media
+      requestBody:
+        description: '유저가 입력한 아바타 파일 이름 req.body로, 아바타 파일이랑 썸네일 파일 form-data로 전송'
+        required: true
+        content:
+          application/json:
+            example:
+              file: avatar file
+              thumbnail: thumbnail
+              fileName: file name
+      responses:
+        '200':
+          description: 미디어 업로드
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: MEDIA_UPLOADED
+  '/media/{mediaId}':
+    get:
+      summary: 미디어 목록에서 미디어 하나를 선택해서 상세 조회
+      tags:
+        - /media
+      parameters:
+        - in: query
+          name: mediaId
+          required: true
+          description: 유저가 조회하고 싶은 미디어 아이디
+      responses:
+        '200':
+          description: 미디어 상세 정보
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  fileName:
+                    type: string
+                  uploader:
+                    type: integer
+                  fileurl:
+                    type: string
+              example:
+                data:
+                  - file_name: fileName
+                    file_url: fileUrl
+                    thumbnail_url: thumbnailUrl
+                    uploader: 1
+    delete:
+      summary: 미디어 삭제
+      tags:
+        - /media
+      parameters:
+        - in: query
+          name: mediaId
+          required: true
+          description: 유저가 삭제하고 싶은 미디어 아이디
+      responses:
+        '200':
+          description: 미디어 삭제
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: MEDIA_DELETED
+  /users:
+    post:
+      summary: 유저 로그인
+      tags:
+        - /users
+      requestBody:
+        description: User login
+        required: true
+        content:
+          application/json:
+            example:
+              email: kimgaren@gmail.com
+              password: qwer123!
+              message: LOGIN_SUCCESS
+      responses:
+        '200':
+          description: 유저 로그인
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: LOGIN_SUCCESS
+    get:
+      summary: 미디어 목록 조회
+      tags:
+        - /users
+      responses:
+        '200':
+          description: 유저 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  username:
+                    type: string
+                  authentication:
+                    type: string
+                  created_at:
+                    type: timestamp
+              example:
+                message: GET_MAINUSER_SUCCESSFUL
+                data:
+                  - id: 3
+                    email: email
+                    username: “name"
+                    authentication: editor
+                    created_at: '2023-11-13T19:51:24.000Z'
+                  - id: 5
+                    email: email
+                    username: “name"
+                    authentication: editor
+                    created_at: '2023-11-14T00:17:55.000Z'
+  /users/new:
+    post:
+      summary: 유저생성
+      tags:
+        - /users
+      requestBody:
+        description: new user create
+        required: true
+        content:
+          application/json:
+            example:
+              email: kimgaren@gmail.com
+              password: qwer123!
+              authentication: ghost
+      response:
+        '200':
+          description: Generate user
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  message:
+                    type: string
+              example:
+                message: CREATE_USER_SUCCESS
+  '/users/{userId}':
+    get:
+      summary: 특정 유저 정보 불러오기
+      tags:
+        - /users
+      parameters:
+        - in: params
+          name: userId
+          required: true
+          description: user description
+      responses:
+        '200':
+          description: Get user details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  username:
+                    type: string
+                  authentication:
+                    enum:
+                      - editor
+                      - staff
+                  message:
+                    type: string
+              example:
+                message: UPDATE_USER_INFO_SUCCESS
+                data:
+                  - email: test@gmail.com
+                    username: test
+                    authentication: staff
+    patch:
+      summary: 유저 정보 수정하기
+      tags:
+        - /users
+      parameters:
+        - in: params
+          name: userId
+          required: true
+          description: user information update
+          content:
+            application/json:
+              example:
+                email: kimgaren@gmail.com
+                password: qwer123!
+                authentication: editor
+      responses:
+        '200':
+          description: User information update
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  email:
+                    type: string
+                  username:
+                    type: string
+                  authentication:
+                    type: string
+              example:
+                message: UPDATE_USER_INFO_SUCCESS
+                data:
+                  - email: test@gmail.com
+                    username: test
+                    authentication: editor
+    delete:
+      summary: 유저정보 삭제하기
+      tags:
+        - /users
+      parameters:
+        - in: params
+          name: userId
+          required: true
+          description: user information Delete
+      responses:
+        '200':
+          description: delete user
+          content:
+            plication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: DELETE_USER_SUCCESS
+components:
+  responses:
+    successResponse:
+      description: success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: SUCCESS

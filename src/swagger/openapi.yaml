@@ -1,0 +1,37 @@
+openapi: "3.0.0"
+info:
+  version: 0.4.0
+  title: FluentT Web Motion Capture API Docs
+  description: Web Motion Capture API 문서입니다.
+  license:
+    name: MIT
+servers:
+  - url: "http://localhost:3000/"
+paths:
+  /main:
+    $ref: "./main.yaml#/~1main"
+  /main/media:
+    $ref: "./main.yaml#/~1main~1media"
+  /media:
+    $ref: "./media.yaml#/~1media"
+  /media/{mediaId}:
+    $ref: "./media.yaml#/~1media~1{mediaId}"
+  /users:
+    $ref: "./users.yaml#/~1users"
+  /users/new:
+    $ref: "./users.yaml#/~1users~1new"
+  /users/{userId}:
+    $ref: "./users.yaml#/~1users~1{userId}"
+
+components:
+  responses:
+    successResponse:
+      description: success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example: { message: "SUCCESS" }

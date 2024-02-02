@@ -1,0 +1,91 @@
+components:
+  responses:
+    successResponse:
+      description: success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example: { message: "SUCCESS"}
+    mediaUploaded:
+      description: 미디어 업로드
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example: { message: "MEDIA_UPLOADED"}
+    mediaDeleted:
+      description: 미디어 삭제
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example: { message: "MEDIA_DELETED"}
+    userMediaList:
+      description: 미디어 목록
+      content:
+        application/json:
+          schema:
+            type: array
+            properties:
+              id:
+                type: integer
+              fileName: 
+                type: string
+              uploader:
+                  type: string
+              fileurl:
+                  type: string
+          example: {
+            "message": "MEDIA_LIST_SUCCESS",
+            "data": [
+              {
+                "file_name": "fileName",
+                "file_url": "fileUrl",
+                "thumbnail_url": "thumbnailUrl",
+                "uploader": 1,
+                "id": 2
+              },
+              {
+                "file_name": "fileName",
+                "file_url": "fileUrl",
+                "thumbnail_url": "thumbnailUrl",
+                "uploader": 1,
+                "id": 3
+              }
+              ]
+              }
+    mediaInfo:
+      description: 미디어 상세 정보
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              fileName: 
+                type: string
+              uploader:
+                  type: integer
+              fileurl:
+                  type: string
+          example: {
+            "data": [
+              {
+                "file_name": "fileName",
+                "file_url": "fileUrl",
+                "thumbnail_url": "thumbnailUrl",
+                "uploader": 1
+              }
+              ]
+              }

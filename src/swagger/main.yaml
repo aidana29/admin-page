@@ -1,0 +1,16 @@
+/main:
+  get:
+    summary: Dislay user's information on the main page
+    tags:
+      - /main
+    responses:
+      "200":
+        $ref: "./openapi.yaml#/components/responses/successResponse"
+/main/media:
+  get:
+    summary: Display a list of uploaded images on the main page
+    tags:
+      - /main
+    responses:
+      "200":
+        $ref: "./mediaComponents.yaml#/components/responses/userMediaList"
